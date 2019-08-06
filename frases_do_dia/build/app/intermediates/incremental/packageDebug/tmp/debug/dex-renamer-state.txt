@@ -1,4 +1,0 @@
-#Tue Aug 06 09:01:19 AMT 2019
-base.0=/home/luiz/Documents/projetos/flutter_teste/frases_do_dia/build/app/intermediates/transforms/dexMerger/debug/0
-path.0=classes.dex
-renamed.0=classes.dex
