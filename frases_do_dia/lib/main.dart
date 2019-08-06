@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  var frase = "AAA";
+  var frase = "Clique no botão para gerar uma frase";
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +30,15 @@ class _HomeState extends State<Home> {
         ),
 
       body: Container(
-        padding: EdgeInsets.all(30),
-        child: Column(
+        //padding: EdgeInsets.all(30),
+        child: Column( // a coluna, a pesar de ser filha do body, não ocupa tod0 o espaço da tela
+          //mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.asset("images/logo.png"),
             Text(frase),
             RaisedButton(
-              child: Text("Gerar"),
+              child: Text("Nova frase"),
               onPressed: (){
 
               },
