@@ -1,41 +1,50 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
 void main(){
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false, // tira a tarja de  debug
-    title: "Frases do dia", // nome do app
-    color: Colors.green,
-    home: Scaffold( // define uma estrutura para o app: barra de navegação superior, área de conteúdo e barra inferior
-      appBar: AppBar(
-        title: Text("Texto"),
-        backgroundColor: Colors.deepOrangeAccent,
-      ), // cria a barra superior do app
-      body: Padding( // é o corpo do app,
-          padding: EdgeInsets.all(16),
-          child: Text("Conteúdo principal"),
-      ),
-      bottomNavigationBar: BottomAppBar( // começa invisível, devemos setar um filho para ela aparecer
-        color: Colors.blue,
-        child: Padding( // dá um padding ao objeto filho
-          padding: EdgeInsets.all(16),
-          child: Row( // row é ideal pois a bar é uma linha horizontal
-            children: <Widget>[ // é interessante colocar botões em uma fila horizontal
-              Text("Bottom bar"),
-              Text("Bottom bar"),
-              Text("Bottom bar"),
-              Text("Bottom bar"),
-            ],
-          ),
-        ),
-      ),
-    ),
-  ));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Frases do dia",
+      color: Colors.green,
+      home: Home(),
+    )
+  );
 }
 
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
+  var frase = "AAA";
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text("Frases do dia"),
+        ),
+
+      body: Container(
+        padding: EdgeInsets.all(30),
+        child: Column(
+          children: <Widget>[
+            Image.asset("images/logo.png"),
+            Text(frase),
+            RaisedButton(
+              child: Text("Gerar"),
+              onPressed: (){
+
+              },
+              splashColor: Colors.greenAccent,
+            ),
+          ],
+        ),
+      )
+    );
   }
 }
