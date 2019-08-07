@@ -15,15 +15,31 @@ class _JogoState extends State<Jogo> {
       body: Container(
         //padding: EdgeInsets.fromLTRB(16, 30, 16, 40),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch, // para a coluna ir até a extremidade do objeto pai
+            crossAxisAlignment: CrossAxisAlignment.center, // para a coluna ir até a extremidade do objeto pai
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 32, bottom: 16),
-                child: Text("Escolha do app:", textAlign: TextAlign.center,),
+                child: Text("Escolha do app:",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
               ),
               Image.asset("images/padrao.png"),
-              Text("Escolha uma opção abaixo"),
+              Padding(
+                padding: EdgeInsets.only(top: 32, bottom: 16),
+                child: Text("Escolha uma opção abaixo",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Image.asset("images/pedra.png"),
                   Image.asset("images/papel.png"),
