@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
+
+enum Escolha {Pedra, Papel, Tesoura}
 
 class Jogo extends StatefulWidget {
   @override
@@ -7,6 +10,11 @@ class Jogo extends StatefulWidget {
 
 class _JogoState extends State<Jogo> {
   @override
+
+  var _imagemPadrao = AssetImage("images/padrao.png"), texto = "", cor = Colors.black;
+  var escolha_usuario, escolha_cpu;
+  List<Escolha> possibilidades = [Escolha.Pedra, Escolha.Papel, Escolha.Tesoura];
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +27,7 @@ class _JogoState extends State<Jogo> {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 32, bottom: 16),
-                child: Text("Escolha do app:",
+                child: Text("Escolha do app",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20,
@@ -27,7 +35,11 @@ class _JogoState extends State<Jogo> {
                   ),
                 ),
               ),
-              Image.asset("images/padrao.png"),
+              Image(image: this._imagemPadrao),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16),
+                child: Text(texto, style: TextStyle(color: cor),),
+              ),
               Padding(
                 padding: EdgeInsets.only(top: 32, bottom: 16),
                 child: Text("Escolha uma opção abaixo",
@@ -41,9 +53,81 @@ class _JogoState extends State<Jogo> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Image.asset("images/pedra.png"),
-                  Image.asset("images/papel.png"),
-                  Image.asset("images/tesoura.png"),
+                  GestureDetector(
+                    child: Image.asset("images/pedra.png", height: 100),
+                    onTap: (){
+                      setState(() {
+                        escolha_cpu = possibilidades[Random().nextInt(3)];
+                        if(escolha_cpu == Escolha.Pedra){
+                            texto = "Empate!";
+                            _imagemPadrao = AssetImage("images/pedra.png");
+                            cor = Colors.black;
+                        }
+                        if(escolha_cpu == Escolha.Papel){
+                            texto = "Perdeste!";
+                            _imagemPadrao = AssetImage("images/papel.png");
+                            cor = Colors.red;
+                        }
+                        if(escolha_cpu == Escolha.Tesoura){
+                            texto = "Ganhaste!";
+                            _imagemPadrao = AssetImage("images/tesoura.png");
+                            cor = Colors.green;
+                        }
+                      });
+                    },
+                  ),
+                  GestureDetector(
+                      child: Image.asset("images/papel.png", height: 100),
+                      onTap: (){
+                      setState(() {
+                        escolha_cpu = possibilidades[Random().nextInt(3)];
+                        if(escolha_cpu == Escolha.Pedra){
+                          texto = "Ganhaste!";
+                          _imagemPadrao = AssetImage("images/pedra.png");
+                          cor = Colors.green;
+                        }
+                        if(escolha_cpu == Escolha.Papel){
+                          texto = "Empate!";
+                          _imagemPadrao = AssetImage("images/papel.png");
+                          cor = Colors.black;
+                        }
+                        if(escolha_cpu == Escolha.Tesoura) {
+                          texto = "Perdeste!";
+                          _imagemPadrao = AssetImage("images/tesoura.png");
+                          cor = Colors.red;
+                        }
+                      });
+                    }
+                  ),
+                  GestureDetector(
+                      child: Image.asset("images/tesoura.png", height: 100),
+                      onTap: (){
+                      setState(() {
+                        escolha_cpu = possibilidades[Random().nextInt(3)];
+                        if(escolha_cpu == Escolha.Pedra){
+                          setState(() {
+                            texto = "Perdeste!";
+                            _imagemPadrao = AssetImage("images/pedra.png");
+                            cor = Colors.red;
+                          });
+                        }
+                        if(escolha_cpu == Escolha.Papel){
+                          setState(() {
+                            texto = "Ganhaste!";
+                            _imagemPadrao = AssetImage("images/papel.png");
+                            cor = Colors.green;
+                          });
+                        }
+                        if(escolha_cpu == Escolha.Tesoura) {
+                          setState(() {
+                            texto = "Empate!";
+                            _imagemPadrao = AssetImage("images/tesoura.png");
+                            cor = Colors.black;
+                          });
+                        }
+                      });
+                    }
+                  ),
                 ],
               )
             ],
