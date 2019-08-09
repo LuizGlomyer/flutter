@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
 
+bool _isNumeric(String str) {
+  if(str == null) {
+    print("RETORNO");
+    return false;
+  }
+  return double.tryParse(str) != null;
+}
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -9,17 +17,44 @@ class _HomeState extends State<Home> {
 
   TextEditingController _controllerAlcool = TextEditingController();
   TextEditingController _controllerGasolina = TextEditingController();
-
+  String _textoResultado = "Resultado";
   var _erroAlcool, _erroGasolina; // já começam null, não precisamos settar
 
   void calcular(){
-    double precoAlcool = double.tryParse(_controllerAlcool.text); // o tryParse retorna null caso não seja possível converter
-    double precoGasolina = double.tryParse(_controllerGasolina.text);
+    double _precoAlcool = double.tryParse(_controllerAlcool.text); // o tryParse retorna null caso não seja possível converter
+    double _precoGasolina = double.tryParse(_controllerGasolina.text);
+    bool _erro = false;
 
-    if(precoAlcool == null) setState(() {  _erroAlcool = "Por favor insira um valor";  }); // se os campos estiverem nulos irá apresentar um erro
-    if(precoGasolina == null) setState(() {  _erroGasolina = "Por favor insira um valor";  }); // o método onChanged retira o estado de erro do campo, pois seta as variáveis de erro como null caso haja alguma coisa dentro dos campos
+    if(_precoGasolina == null){
+      setState(() {
+        _erroGasolina = "Por favor insira um valor válido";
+      }); // se os campos estiverem nulos ou não numéricos irá apresentar um erro
+      _erro = true;
+    }
+    if(!_isNumeric(_controllerAlcool.text)) {
+      setState(() {
+        _erroAlcool = "Por favor insira um valor válido";
+      }); // outra forma de fazer a validação
+      _erro = true;
+    }
+    // o método onChanged retira o estado de erro do campo, pois seta as variáveis de erro como null caso haja alguma informação válida dentro dos campos
 
-    print("$precoAlcool, $precoGasolina");
+    if(_erro)
+      return;
+
+
+    setState(() {
+      if(_precoAlcool / _precoGasolina >= 7)
+          _textoResultado = "Use gasolina!";
+      else
+          _textoResultado = "Use álcool!";
+    });
+    _controllerGasolina.text = ""; // resetando os campos para eles ficarem vazios após o botão ser pressionado
+    _controllerAlcool.text = ""; // controladores não precisam estar dentro de um setstate para ter o seu conteúdo ser atualizado na tela
+
+
+
+    print("$_precoAlcool, $_precoGasolina");
   }
 
   bool contemVirgula(String s){
@@ -89,7 +124,7 @@ class _HomeState extends State<Home> {
               ),
 
               TextField(
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.number,
                 controller: _controllerAlcool,
                 autocorrect: false,
                 decoration: InputDecoration(
@@ -127,7 +162,7 @@ class _HomeState extends State<Home> {
               ),
 
               Text(
-                "Resultado",
+                _textoResultado,
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold
