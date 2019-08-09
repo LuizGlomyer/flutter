@@ -8,7 +8,7 @@ class CampoTexto extends StatefulWidget {
 class _CampoTextoState extends State<CampoTexto> {
 
   TextEditingController _textEditingController = TextEditingController(); // necessário para por no controller do TextField
-
+  bool _checkBox = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +49,16 @@ class _CampoTextoState extends State<CampoTexto> {
             onPressed: (){
               print("Texto recuperado: " + _textEditingController.text);
             },
+          ),
+
+          Padding(
+            padding: EdgeInsets.only(top: 30, bottom: 30),
+            child: Text("Comida brasileira"),
+          ),
+          Checkbox(
+            value: false, // valor inicial
+            onChanged: (bool value){setState(() {  value = !_checkBox;  }); },
+
           )
         ]
       ),
