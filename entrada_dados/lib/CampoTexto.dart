@@ -19,7 +19,9 @@ class _CampoTextoState extends State<CampoTexto> {
   TextEditingController _textEditingController = TextEditingController(); // necessário para por no controller do TextField
   bool _checkBox = false, _checkBox2 = false;
   opcoesRadioButton _escolhaRadioButton = opcoesRadioButton.none;
-
+  bool _switch = false;
+  double _slider = 0;
+  String _labelSlider = "";
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +148,7 @@ class _CampoTextoState extends State<CampoTexto> {
 
               Column(
                 children: <Widget>[
-                  RadioListTile(
+                  RadioListTile( // notar que este e outros objetos com List no nome são listas, então devemos colocá-los obrigatoriamente dentro de uma coluna, caso coloquemos numa Row o conteúdo não vai aparecer
                     title: Text("Masculino"),
                     activeColor: Colors.blue,
                     value: opcoesRadioButton.masculino,
@@ -170,7 +172,7 @@ class _CampoTextoState extends State<CampoTexto> {
                   ),
                   RadioListTile(
                     title: Text("Outro"),
-                    activeColor: Colors.pinkAccent,
+                    activeColor: Colors.grey,
                     value: opcoesRadioButton.outro,
                     groupValue: _escolhaRadioButton,
                     onChanged: (opcoesRadioButton escolha){ // recebemos como parâmetro o que foi escolhido pelo usuário
@@ -180,10 +182,48 @@ class _CampoTextoState extends State<CampoTexto> {
                     },
                   ),
 
+                  Switch( // muito parecido com checkbox
+                    activeColor: Colors.amber,
+                      activeTrackColor: Colors.brown,
+                      value: _switch,
+                      onChanged: (bool valor){
+                        setState(() {
+                          _switch = valor;
+                        });
+                      }
+                  ),
+
+                  SwitchListTile(
+                    title: Text("Legenda"),
+                    inactiveThumbColor: Colors.green,
+                      inactiveTrackColor: Colors.deepPurpleAccent,
+                      value: _switch,
+                      onChanged: (bool valor){
+                        setState(() {
+                          _switch = valor;
+                        });
+                      }
+                  ),
+
+                  Slider(
+                      min: 0, // limites superior e inferior
+                      max: 100,
+                      activeColor: Colors.green,
+                      inactiveColor: Colors.orange,
+                      label: _labelSlider, // informação que aparece ao deslizar o slider
+                      divisions: 2000,
+                      value: _slider,
+                      onChanged: (double valor){
+                        setState(() {
+                          _slider = valor;
+                          _labelSlider = "Valor selecionado: " + valor.toString();
+                          print(valor);
+                        });
+                      }
+                  )
+                  
                 ],
               )
-
-
             ]
         ),
       ),
