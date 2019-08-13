@@ -30,8 +30,7 @@ class _CampoTextoState extends State<CampoTexto> {
         title: Text("Entrada de dados"),
       ),
 
-
-
+      
 
       body: SingleChildScrollView(
         child: Column(
