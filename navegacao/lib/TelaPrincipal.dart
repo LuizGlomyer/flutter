@@ -8,7 +8,7 @@ class TelaPrincipal extends StatefulWidget {
 
 class _TelaPrincipalState extends State<TelaPrincipal> {
 
-
+  TextEditingController _controleEntrada = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,8 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         padding: EdgeInsets.all(32),
         child: Column(
           children: <Widget>[
+            TextField(controller: _controleEntrada),
+            Padding(padding: EdgeInsets.only(top:10, bottom: 10)),
             RaisedButton(
               child: Text("Segunda Tela"),
               padding: EdgeInsets.all(15),
@@ -31,7 +33,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                 Navigator.push( //classe responsável pela mudança de tela. O método push abre uma nova tela por cima da tela atual
                     context, // o atual contexto do app
                     MaterialPageRoute( // a 'rota'
-                        builder: (context) => TelaSecundaria()
+                        builder: (context) => TelaSecundaria(valor: _controleEntrada.text) // valor que queremos passar para a próxima tela
                     )
                 );
               },

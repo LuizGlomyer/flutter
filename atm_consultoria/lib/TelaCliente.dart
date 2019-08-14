@@ -18,6 +18,7 @@ class _TelaClienteState extends State<TelaCliente> {
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
