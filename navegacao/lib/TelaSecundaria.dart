@@ -38,6 +38,7 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
               child: Text("Primeira Tela"),
               padding: EdgeInsets.all(15),
               onPressed: (){
+                //Navigator.pushNamed(context, "/secundaria");
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => TelaPrincipal())
                 );

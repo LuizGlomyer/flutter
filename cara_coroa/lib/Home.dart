@@ -33,11 +33,11 @@ class _HomeState extends State<Home> {
   }
 
   void _exibirResultado() {
-    int escolha = Random().nextInt(2);
+    int e = Random().nextInt(2);
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => TelaResultado()
+            builder: (context) => TelaResultado(escolha: e)
         )
     );
   }

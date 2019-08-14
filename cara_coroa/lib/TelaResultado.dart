@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class TelaResultado extends StatefulWidget {
-  TelaResultado({int escolha})
+  int escolha;
+  TelaResultado({this.escolha}); // NÃO ESQUECER DO THIS, CASO CONTRÁRIO O VALOR SERÁ NULO
 
   @override
   _TelaResultadoState createState() => _TelaResultadoState();
@@ -17,10 +18,14 @@ class _TelaResultadoState extends State<TelaResultado> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Image.asset("img/moeda_cara.png"),
+          Image.asset("img/" +
+              (widget.escolha == 0 ? "moeda_cara" : "moeda_coroa") + ".png"
+          ),
           Padding(padding: EdgeInsets.only(top:40, bottom: 40)),
-          Image.asset("img/botao_voltar.png"),
-          Text()
+          GestureDetector(
+            child: Image.asset("img/botao_voltar.png"),
+            onTap: (){ Navigator.pop(context); }, // ele fecha a tela que está presente
+          ),
         ],
       ),
     );
