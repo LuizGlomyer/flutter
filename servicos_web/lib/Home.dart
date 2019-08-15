@@ -25,7 +25,11 @@ class _HomeState extends State<Home> {
         child: Column(
           children: <Widget>[
             TextField(
+              keyboardType: TextInputType.number,
               controller: _controleCep,
+              decoration: InputDecoration(
+                labelText: "Digite o cep. Ex: 01311300"
+              ),
             ),
             Padding(padding: EdgeInsets.only(top: 20, bottom: 20)),
             RaisedButton(
@@ -42,7 +46,6 @@ class _HomeState extends State<Home> {
   }
 
   void _recuperarCep() async{ // devemos colocar o método como assíncronno
-    String cep = "01311300";
     String url = "http://viacep.com.br/ws/${_controleCep.text}/json/";
     http.Response resposta; // precisamos criar uma variável do tipo resposta
     resposta = await http.get(url); // devemos colocar o await pois vamos aguardar a execução
