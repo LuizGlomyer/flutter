@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
               onPressed: _recuperarCep,
             ),
             Padding(padding: EdgeInsets.only(bottom: 30)),
-            Text(info)
+            Text(info),
 
           ],
         ),
