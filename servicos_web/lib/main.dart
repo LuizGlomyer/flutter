@@ -7,7 +7,7 @@ import 'package:servicos_web/Lista.dart';
 
 void main() => runApp(
   MaterialApp(
-    home: Lista(),
+    home: Home(),
   )
 );
 

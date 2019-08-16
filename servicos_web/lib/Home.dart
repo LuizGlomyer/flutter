@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void _recuperarCep() async{ // devemos colocar o método como assíncronno
+  void _recuperarCep() async { // devemos colocar o método como assíncronno
     String url = "http://viacep.com.br/ws/${_controleCep.text}/json/";
     http.Response resposta; // precisamos criar uma variável do tipo resposta
     resposta = await http.get(url); // devemos colocar o await pois vamos aguardar a execução
