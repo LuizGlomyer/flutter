@@ -1,9 +1,8 @@
-import 'package:servicos_web_avancado/Post.dart';
+import 'package:servicos_web_avancado/Estruturas/Post.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-
 
 
 
@@ -38,6 +37,8 @@ class _ListaState extends State<Lista> {
       "title": "Título",
       "body": "Corpo da postagem"
      }
+
+
     );
     http.Response resposta = await http.post(
       _urlBase + "/posts",
