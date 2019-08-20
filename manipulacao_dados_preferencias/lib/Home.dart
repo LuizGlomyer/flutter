@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -10,18 +11,23 @@ class _HomeState extends State<Home> {
   TextEditingController _controle = TextEditingController();
   String _textField = "";
 
-  _salvar(){
-
+  _salvar() async { // deve ser assíncrono
+    String valorDigitado = _controle.text;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("nome", valorDigitado); // similar a um dicionário, primeiro a chave depois os dados
+    // pode demorar ^
   }
 
-  _recuperar() {
+  _recuperar() async {
+    final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _textField = _controle.text;
+      _textField = prefs.getString("nome") ?? "";
     });
   }
 
-  _remover(){
-
+  _remover() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove("nome");
   }
 
   @override
@@ -40,7 +46,8 @@ class _HomeState extends State<Home> {
             TextField(
               controller: _controle,
               decoration: InputDecoration(
-                labelText: "Digite algo:"
+                labelText: "Digite algo:",
+
               ),
             ),
 

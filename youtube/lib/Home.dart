@@ -13,18 +13,21 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  static String _pesquisa = "";
   //var _telaAtual = Container();
   int _indiceBar = 0;
-  List<Widget> _telas = [
-    Inicio("ios"),
-    EmAlta(),
-    Inscricoes(),
-    Biblioteca(),
-  ];
+  String _pesquisa = "";
 
   @override
   Widget build(BuildContext context) {
+
+
+    List<Widget> _telas = [
+      Inicio(_pesquisa),
+      EmAlta(),
+      Inscricoes(),
+      Biblioteca(),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(

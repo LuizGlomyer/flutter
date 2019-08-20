@@ -23,6 +23,9 @@ class Api{
           "&q=$pesquisa" // query, ou pesquisa
     );
 
+
+    if(resposta.statusCode == 403)
+      print("status code ${resposta.statusCode} ${resposta.body}");
     if(resposta.statusCode == 200){
       Map<String, dynamic> dadosJson = json.decode(resposta.body);
       /*

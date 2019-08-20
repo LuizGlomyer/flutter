@@ -15,9 +15,9 @@ class Inicio extends StatefulWidget {
 
 class _InicioState extends State<Inicio> {
 
-  _listarVideos(){
+  _listarVideos(String pesquisa){
     Api api = Api();
-    return api.pesquisar("android");
+    return api.pesquisar(pesquisa);
   }
 
   @override
@@ -27,7 +27,7 @@ class _InicioState extends State<Inicio> {
 
 
     return FutureBuilder<List<Video>>(
-      future: _listarVideos(),
+      future: _listarVideos(widget.pesquisa),
       builder: (context, snapshot){
         switch(snapshot.connectionState){
           case ConnectionState.active:
