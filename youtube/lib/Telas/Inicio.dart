@@ -5,6 +5,10 @@ import 'package:youtube/model/Video.dart';
 
 
 class Inicio extends StatefulWidget {
+
+  String pesquisa;
+  Inicio(this.pesquisa);
+
   @override
   _InicioState createState() => _InicioState();
 }
@@ -13,7 +17,7 @@ class _InicioState extends State<Inicio> {
 
   _listarVideos(){
     Api api = Api();
-    return api.pesquisar("ios");
+    return api.pesquisar("android");
   }
 
   @override
@@ -38,10 +42,34 @@ class _InicioState extends State<Inicio> {
             if(snapshot.hasData){ // se tem ou não tem dados
 
               return ListView.separated(
-                  itemBuilder: null,
-                  separatorBuilder: (context, index){
+                  itemBuilder: (context, index){
 
+                    List<Video> videos = snapshot.data;
+                    Video video = videos[index];
+                    return Column(
+                      children: <Widget>[
+                        Container(
+                          height: 190, // como a imagem fica de background, o container precisa de algo dentro para exibi-la
+                          decoration: BoxDecoration(
+                            image: DecorationImage( // background do container
+                              fit: BoxFit.cover,
+                                image: NetworkImage(video.imagem)
+                            )
+                          ),
+                        ),
+
+                        ListTile(
+                          title: Text(video.titulo),
+                          subtitle: Text(video.canal),
+                        ),
+
+                      ],
+                    );
                   },
+                  separatorBuilder: (context, index) => Divider( // widget que serve como divisor entre itens da lista
+                    height: 3,
+                    color: Colors.grey,
+                  ),
                   itemCount: snapshot.data.length
               );
 
@@ -52,7 +80,7 @@ class _InicioState extends State<Inicio> {
               );
             }
         }
-        return Text();
+        return Text("aaaa");
       },
     );
   }

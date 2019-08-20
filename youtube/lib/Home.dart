@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'CustomSearchDelegate.dart';
 import 'Telas/Biblioteca.dart';
 import 'Telas/EmAlta.dart';
 import 'Telas/Inicio.dart';
@@ -12,10 +13,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  var _telaAtual = Container();
+  static String _pesquisa = "";
+  //var _telaAtual = Container();
   int _indiceBar = 0;
   List<Widget> _telas = [
-    Inicio(),
+    Inicio("ios"),
     EmAlta(),
     Inscricoes(),
     Biblioteca(),
@@ -40,7 +42,12 @@ class _HomeState extends State<Home> {
 
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: (){},
+            onPressed: () async { // pois quando o botão é pressionado ele não faz o retorno até que haja a confirmação
+              String a = await showSearch(context: context, delegate: CustomSearchDelegate());
+              setState(() {
+                _pesquisa = a;
+              });
+            },
           ),
 
           IconButton(

@@ -19,7 +19,7 @@ class Api{
           "&maxResults=20"
           "&order=date"
           "&key=$CHAVE_YOUTUBE_API" // o parâmetro chave é obrigatório para a requisição
-          "&channelId=$ID_CANAL"
+       //   "&channelId=$ID_CANAL"
           "&q=$pesquisa" // query, ou pesquisa
     );
 
@@ -39,6 +39,8 @@ class Api{
         print("Resultado: " + video.titulo);
       }
 
+
+      return videos;
 
     }
 
