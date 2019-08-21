@@ -15,6 +15,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
       IconButton(
         icon: Icon(Icons.done),
         onPressed: (){
+          buildResults(context);
         },
       ),
     ];
