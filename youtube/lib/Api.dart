@@ -18,6 +18,7 @@ class Api{
           "&type=video" // & para parâmetros subsequentes
           "&maxResults=20"
           "&order=date"
+          "&relevanceLanguage=pt"
           "&key=$CHAVE_YOUTUBE_API" // o parâmetro chave é obrigatório para a requisição
        //   "&channelId=$ID_CANAL"
           "&q=$pesquisa" // query, ou pesquisa

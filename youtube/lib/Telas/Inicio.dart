@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_youtube/flutter_youtube.dart';
 
 import 'package:youtube/Api.dart';
 import 'package:youtube/model/Video.dart';
@@ -46,24 +47,35 @@ class _InicioState extends State<Inicio> {
 
                     List<Video> videos = snapshot.data;
                     Video video = videos[index];
-                    return Column(
-                      children: <Widget>[
-                        Container(
-                          height: 190, // como a imagem fica de background, o container precisa de algo dentro para exibi-la
-                          decoration: BoxDecoration(
-                            image: DecorationImage( // background do container
-                              fit: BoxFit.cover,
-                                image: NetworkImage(video.imagem)
-                            )
+                    return GestureDetector(
+                      onTap: (){
+                        FlutterYoutube.playYoutubeVideoById(
+                          apiKey: CHAVE_YOUTUBE_API,
+                          videoId: video.id,
+                          autoPlay: true, // para o vídeo dar o play automaticamente
+                          fullScreen: true,
+                        );
+                      },
+
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            height: 190, // como a imagem fica de background, o container precisa de algo dentro para exibi-la, usamos a altura para "empurrar" o container
+                            decoration: BoxDecoration(
+                                image: DecorationImage( // background do container
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(video.imagem)
+                                )
+                            ),
                           ),
-                        ),
 
-                        ListTile(
-                          title: Text(video.titulo),
-                          subtitle: Text(video.canal),
-                        ),
+                          ListTile(
+                            title: Text(video.titulo),
+                            subtitle: Text(video.canal),
+                          ),
 
-                      ],
+                        ],
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) => Divider( // widget que serve como divisor entre itens da lista

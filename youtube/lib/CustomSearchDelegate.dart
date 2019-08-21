@@ -39,8 +39,34 @@ class CustomSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) { // função que é executada a tecla digitada
-    print("Resultado: digitado " + query);
-    return Container();
+    // print("Resultado: digitado " + query); // printa toda vez que uma nova letra é digitada
+    List<String> lista = List();
+
+    if(query.isNotEmpty){ // lista de sugestões
+      lista = ["Android", "Android navegação", "Ios", "Jogos", "Flutter", "Aplicativos", "Desenvolvimento", "Informatica"].where( // where é como se fosse uma função lambda
+          (texto) => texto.toLowerCase().startsWith(query.toLowerCase())
+      ).toList(); // pois o retorno não é uma lista
+
+      return ListView.builder(
+        itemCount: lista.length,
+        itemBuilder: (context, index){
+          return ListTile(
+            title: Text(lista[index]),
+            onTap: (){
+              close(context, lista[index]);
+            },
+          );
+        },
+      );
+
+    }
+
+    else{
+      return Center(
+        child: Text("Nenhum resultado para a pesquisa"), // aparece no body do scaffold
+      );
+    }
+
   }
 
 }
