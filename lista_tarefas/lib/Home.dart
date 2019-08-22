@@ -12,6 +12,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   List _listaTarefas = [];
+  TextEditingController _controleTarefa = TextEditingController();
 
   Future<File> _getFile() async { // pois o arquivo será retornado em um futuro
     final diretorio = await getApplicationDocumentsDirectory(); // retorna um objeto Directory
@@ -19,13 +20,23 @@ class _HomeState extends State<Home> {
     //print(diretorio.path);
   }
 
-  _salvarArquivo() async {
-    var arquivo = await _getFile();
+
+  _salvarTarefa() async {
+    String textoDigitado = _controleTarefa.text;
+    _controleTarefa.text = "";
     Map<String, dynamic> tarefa = Map();
 
-    tarefa["titulo"] = "Ir ao mercado";
-    tarefa["realizada"] = false;
-    _listaTarefas.add(tarefa);
+    tarefa["titulo"] = textoDigitado; // dados da tarefa
+    tarefa["realizado"] = false;
+    setState(() {
+      _listaTarefas.add(tarefa);
+    });
+
+    _salvarArquivo();
+  }
+
+  _salvarArquivo() async {
+    var arquivo = await _getFile();
 
     String dados = json.encode(_listaTarefas); // convertermos a nossa lista de tarefas para uma string json
     arquivo.writeAsString(dados); // o salvamento em si
@@ -54,6 +65,49 @@ class _HomeState extends State<Home> {
     );
   }
 
+
+  Widget criarItemLista(context, index){
+    final item = _listaTarefas[index]["titulo"];
+
+    return Dismissible(
+      key: Key(item),
+      direction: DismissDirection.endToStart,
+      onDismissed: (direction){
+        _listaTarefas.removeAt(index);
+        _salvarArquivo();
+        print(_listaTarefas.toString());
+      },
+      background: Container(
+        color: Colors.red,
+        padding: EdgeInsets.all(16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+          ],
+        ),
+      ),
+      child: CheckboxListTile(
+        title: Text(_listaTarefas[index]["titulo"]),
+        value: _listaTarefas[index]["realizado"],
+        onChanged: (valorAlterado){
+          setState(() {
+            _listaTarefas[index]["realizado"] = valorAlterado;
+            _salvarArquivo();
+          });
+        },
+      ),
+    );
+  }
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     _salvarArquivo();
@@ -70,11 +124,7 @@ class _HomeState extends State<Home> {
             Expanded(
               child: ListView.builder(
                   itemCount: _listaTarefas.length,
-                  itemBuilder: (context, index){
-                    return ListTile(
-                      title: Text(_listaTarefas[index]["titulo"]),
-                    );
-                  }
+                  itemBuilder: criarItemLista // podemos criar um método ao invés de colocar uma função anônima
               ),
             ),
           ],
@@ -91,8 +141,8 @@ class _HomeState extends State<Home> {
                 return AlertDialog(
                   title: Text("Adicionar tarefa"),
                   content: TextField(
-                    minLines: 1,
-                    maxLines: 5, // para aumentar o tamanho da caixa de texto, ela aumenta gradualmente com o texto digitado
+                    controller: _controleTarefa,
+                    //maxLines: 1, // para aumentar o tamanho da caixa de texto, ela aumenta gradualmente com o texto digitado
                     decoration: InputDecoration(
                         labelText: "Digite sua tarefa"
                     ),
@@ -100,12 +150,12 @@ class _HomeState extends State<Home> {
                   actions: <Widget>[ // botões da telinha
                     FlatButton(
                       child: Text("Cancelar"),
-                      onPressed: (){ Navigator.pop(context); }, // para fechar a tela
+                      onPressed: (){ Navigator.pop(context); _controleTarefa.text = ""; }, // para fechar a tela
                     ),
                     FlatButton(
                       child: Text("Salvar"),
                       onPressed: (){
-                        //todo salvar
+                        _salvarTarefa();
                         Navigator.pop(context);
                       },
                     ),
