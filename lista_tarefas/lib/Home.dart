@@ -12,6 +12,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   List _listaTarefas = [];
+  Map<String, dynamic> _ultimaTarefaRemovida = Map();
+
   TextEditingController _controleTarefa = TextEditingController();
 
   Future<File> _getFile() async { // pois o arquivo será retornado em um futuro
@@ -68,14 +70,34 @@ class _HomeState extends State<Home> {
 
   Widget criarItemLista(context, index){
     final item = _listaTarefas[index]["titulo"];
-
+    String chave = DateTime.now().millisecondsSinceEpoch.toString(); // por algum motivo usar isto como chave tira o efeito de animação da checkbox
     return Dismissible(
-      key: Key(item),
+      key: Key(chave), // as chaves devem ser únicas, se não o dismissible apresenta erros ao usar a opção desfazer da snack bar
       direction: DismissDirection.endToStart,
       onDismissed: (direction){
+        _ultimaTarefaRemovida = _listaTarefas[index];
         _listaTarefas.removeAt(index);
         _salvarArquivo();
         print(_listaTarefas.toString());
+
+        final snackbar = SnackBar( // importante notar que a snackbar fica dentro do método onDismissed
+          //backgroundColor: Colors.green, // verde fica bom
+          //duration: Duration(seconds: 2), // tempo de visibilidade
+          action: SnackBarAction(
+            label: "Desfazer",
+            onPressed: (){
+              setState(() {
+                _listaTarefas.insert(index, _ultimaTarefaRemovida);
+                _salvarArquivo();
+              });
+            }
+          ),
+          content: Text("Tarefa removida")
+        );
+
+        Scaffold.of(context).showSnackBar(snackbar); // primeiro acessamos o scaffold da tela, então dizemos que queremos mostrar uma snackbar
+
+
       },
       background: Container(
         color: Colors.red,
@@ -96,8 +118,8 @@ class _HomeState extends State<Home> {
         onChanged: (valorAlterado){
           setState(() {
             _listaTarefas[index]["realizado"] = valorAlterado;
-            _salvarArquivo();
           });
+          _salvarArquivo();
         },
       ),
     );
@@ -110,7 +132,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    _salvarArquivo();
     print("itens: " + _listaTarefas.toString());
     return Scaffold(
       appBar: AppBar(
