@@ -71,57 +71,63 @@ class _HomeState extends State<Home> {
   Widget criarItemLista(context, index){
     final item = _listaTarefas[index]["titulo"];
     String chave = DateTime.now().millisecondsSinceEpoch.toString(); // por algum motivo usar isto como chave tira o efeito de animação da checkbox
-    return Dismissible(
-      key: Key(chave), // as chaves devem ser únicas, se não o dismissible apresenta erros ao usar a opção desfazer da snack bar
-      direction: DismissDirection.endToStart,
-      onDismissed: (direction){
-        _ultimaTarefaRemovida = _listaTarefas[index];
-        _listaTarefas.removeAt(index);
-        _salvarArquivo();
-        print(_listaTarefas.toString());
+    return StatefulBuilder(
+        builder: (context, setState){
+          return Dismissible( // coloquei esta classe para voltar a animação das checkboxes
+            key: Key(UniqueKey().toString()), // as chaves devem ser únicas, se não o dismissible apresenta erros ao usar a opção desfazer da snack bar
+            direction: DismissDirection.endToStart, // UniqueKey não buga, diferentemente de datetime
+            onDismissed: (direction){
 
-        final snackbar = SnackBar( // importante notar que a snackbar fica dentro do método onDismissed
-          //backgroundColor: Colors.green, // verde fica bom
-          //duration: Duration(seconds: 2), // tempo de visibilidade
-          action: SnackBarAction(
-            label: "Desfazer",
-            onPressed: (){
-              setState(() {
-                _listaTarefas.insert(index, _ultimaTarefaRemovida);
-                _salvarArquivo();
-              });
-            }
-          ),
-          content: Text("Tarefa removida")
-        );
+              _ultimaTarefaRemovida = _listaTarefas[index];
+              _listaTarefas.removeAt(index);
+              _salvarArquivo();
+              print(_listaTarefas.toString());
 
-        Scaffold.of(context).showSnackBar(snackbar); // primeiro acessamos o scaffold da tela, então dizemos que queremos mostrar uma snackbar
+              final snackbar = SnackBar( // importante notar que a snackbar fica dentro do método onDismissed
+                //backgroundColor: Colors.green, // verde fica bom
+                //duration: Duration(seconds: 2), // tempo de visibilidade
+                  action: SnackBarAction(
+                      label: "Desfazer",
+                      onPressed: (){
+                        setState(() {
+                          _listaTarefas.insert(index, _ultimaTarefaRemovida);
+                          _salvarArquivo();
+                          print(_listaTarefas);
+                        });
+                      }
+                  ),
+                  content: Text("Tarefa removida")
+              );
+
+              Scaffold.of(context).showSnackBar(snackbar); // primeiro acessamos o scaffold da tela, então dizemos que queremos mostrar uma snackbar
 
 
-      },
-      background: Container(
-        color: Colors.red,
-        padding: EdgeInsets.all(16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            Icon(
-              Icons.delete,
-              color: Colors.white,
+            },
+            background: Container(
+              color: Colors.red,
+              padding: EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-      child: CheckboxListTile(
-        title: Text(_listaTarefas[index]["titulo"]),
-        value: _listaTarefas[index]["realizado"],
-        onChanged: (valorAlterado){
-          setState(() {
-            _listaTarefas[index]["realizado"] = valorAlterado;
-          });
-          _salvarArquivo();
-        },
-      ),
+            child: CheckboxListTile(
+              title: Text(_listaTarefas[index]["titulo"]),
+              value: _listaTarefas[index]["realizado"],
+              onChanged: (valorAlterado){
+                setState(() {
+                  _listaTarefas[index]["realizado"] = valorAlterado;
+                });
+                _salvarArquivo();
+              },
+            ),
+          );
+        }
     );
   }
 
