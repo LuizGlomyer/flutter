@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
         builder: (context, setState){
           return Dismissible( // coloquei esta classe para voltar a animação das checkboxes
             key: Key(UniqueKey().toString()), // as chaves devem ser únicas, se não o dismissible apresenta erros ao usar a opção desfazer da snack bar
-            direction: DismissDirection.endToStart, // UniqueKey não buga, diferentemente de datetime
+            direction: DismissDirection.endToStart, //
             onDismissed: (direction){
 
               _ultimaTarefaRemovida = _listaTarefas[index];
@@ -168,6 +168,7 @@ class _HomeState extends State<Home> {
                 return AlertDialog(
                   title: Text("Adicionar tarefa"),
                   content: TextField(
+                    autofocus: true,
                     controller: _controleTarefa,
                     //maxLines: 1, // para aumentar o tamanho da caixa de texto, ela aumenta gradualmente com o texto digitado
                     decoration: InputDecoration(
