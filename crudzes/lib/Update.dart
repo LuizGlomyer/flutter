@@ -68,18 +68,20 @@ class _UpdateState extends State<Update> {
             return ListTile(
               title: Text(_dados[index]["titulo"]),
               onTap: (){
+                String _tituloAnterior, _atrib1Anterior, _atrib2Anterior, _atrib3Anterior;
+                TextEditingController _controleTitulo = TextEditingController();
+                TextEditingController _controleAtrib1 = TextEditingController();
+                TextEditingController _controleAtrib2 = TextEditingController();
+                TextEditingController _controleAtrib3 = TextEditingController();
+                _controleTitulo.text = _tituloAnterior = _dados[index]["titulo"];
+                _controleAtrib1.text = _atrib1Anterior = _dados[index]["atrib1"];
+                _controleAtrib2.text = _atrib2Anterior = _dados[index]["atrib2"];
+                _controleAtrib3.text = _atrib3Anterior = _dados[index]["atrib3"];
+                String _textoErro;
                 showDialog(
                     context: context,
                     builder: (context){
-                      TextEditingController _controleTitulo = TextEditingController();
-                      TextEditingController _controleAtrib1 = TextEditingController();
-                      TextEditingController _controleAtrib2 = TextEditingController();
-                      TextEditingController _controleAtrib3 = TextEditingController();
-                      _controleTitulo.text = _dados[index]["titulo"];
-                      _controleAtrib1.text = _dados[index]["atrib1"];
-                      _controleAtrib2.text = _dados[index]["atrib2"];
-                      _controleAtrib3.text = _dados[index]["atrib3"];
-                      String _textoErro;
+                      //NÃO COLOCAR PROGRAMAÇÃO DE VARIÁVEIS AQUI!
                       return SingleChildScrollView(
                         child: AlertDialog(
                           title: Text(_dados[index]["titulo"]),
@@ -95,11 +97,10 @@ class _UpdateState extends State<Update> {
                                 controller: _controleTitulo,
                                 decoration: InputDecoration(
                                   labelText: "Título",
-                                    errorText: _textoErro
+                                  hintText: "Valor anterior: $_tituloAnterior", // valor existente anteriormente
+                                  errorText: _textoErro
                                 ),
-                                style: TextStyle(
-                                  fontSize: 20
-                                )
+                                style: TextStyle(fontSize: 20)
                               ),
 
                               Padding(
@@ -108,31 +109,44 @@ class _UpdateState extends State<Update> {
 
 
                               TextField(
+                                onTap: (){
+                                  setState(() {
+                                    _controleAtrib1.text = "";
+                                  });
+                                },
                                   controller: _controleAtrib1,
                                   decoration: InputDecoration(
-                                      labelText: "Atributo 1"
+                                    labelText: "Atributo 1",
+                                    hintText: "Valor anterior: $_atrib1Anterior", // valor existente anteriormente
                                   ),
-                                  style: TextStyle(
-                                      fontSize: 20
-                                  )
+                                  style: TextStyle(fontSize: 20)
                               ),
                               TextField(
+                                  onTap: (){
+                                    setState(() {
+                                      _controleAtrib2.text = "";
+                                    });
+                                  },
                                   controller: _controleAtrib2,
                                   decoration: InputDecoration(
-                                      labelText: "Atributo 2"
+                                    labelText: "Atributo 2",
+                                    hintText: "Valor anterior: $_atrib1Anterior", // valor existente anteriormente
+
                                   ),
-                                  style: TextStyle(
-                                      fontSize: 20
-                                  )
+                                  style: TextStyle(fontSize: 20)
                               ),
                               TextField(
+                                  onTap: (){
+                                    setState(() {
+                                      _controleAtrib3.text = "";
+                                    });
+                                  },
                                   controller: _controleAtrib3,
                                   decoration: InputDecoration(
+                                      hintText: "Valor anterior: $_atrib1Anterior", // valor existente anteriormente
                                       labelText: "Atributo 3"
                                   ),
-                                  style: TextStyle(
-                                      fontSize: 20
-                                  )
+                                  style: TextStyle(fontSize: 20)
                               ),
                             ],
                           ),
@@ -140,7 +154,34 @@ class _UpdateState extends State<Update> {
                             FlatButton(
                               child: Text("Salvar"),
                               onPressed: (){
-                                    //todo salvamento
+                                if(_controleTitulo.text == "" || _controleAtrib1.text == ""
+                                || _controleAtrib2.text == "" || _controleAtrib3.text == ""){
+                                    setState(() {
+                                      _textoErro = "Por favor, insira todos os campos";
+                                    });
+                                    return;
+                                }
+
+                                Map<String, dynamic> entrada = Map();
+                                entrada["titulo"] = _controleTitulo.text;
+                                entrada["atrib1"] = _controleAtrib1.text;
+                                entrada["atrib2"] = _controleAtrib2.text;
+                                entrada["atrib3"] = _controleAtrib3.text;
+                                setState(() {
+                                  _dados.removeAt(index);
+                                  _dados.insert(index, entrada);
+                                });
+
+                                _salvarArquivo();
+                                _controleTitulo.text = "";
+                                _controleAtrib1.text = "";
+                                _controleAtrib2.text = "";
+                                _controleAtrib3.text = "";
+                                setState(() {
+                                  _textoErro = null;
+                                });
+
+                                Navigator.pop(context);
                               },
                             ),
 
