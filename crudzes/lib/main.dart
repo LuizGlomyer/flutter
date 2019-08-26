@@ -10,7 +10,7 @@ import 'Update.dart';
 
 void main() => runApp(
   MaterialApp(
-    home: Update(),
+    home: Home(),
     initialRoute: "/",
     routes: {
       "/create" : (context) => Create(),
