@@ -45,14 +45,53 @@ class _HomeState extends State<Home> {
 
   _listarUsuarios() async {
     Database bd = await _recuperarBancoDados();
-    String sql = "SELECT distinct nome FROM usuarios";
+    String sql = "SELECT * FROM usuarios";
     List usuarios = await bd.rawQuery(sql); // retorna uma lista de Maps
     print(usuarios.toString());
   }
 
+  _listarUsuario(int id) async {
+    Database bd = await _recuperarBancoDados();
+    List usuarios = await bd.query(
+      "usuarios",
+      columns: ["id", "nome", "idade"],
+      where: "id = ? ",
+      whereArgs: [id] // é feita a composição do argumento informado dentro da interrogação
+    );
+    print(usuarios.toString());
+  }
+
+  _excluirUsuario(int id) async {
+    Database bd = await _recuperarBancoDados();
+    int retorno = await bd.delete(
+                          "usuarios",
+                          where: "id = ?",
+                          whereArgs: [id]
+                        );
+    print("Qtd de registros excluídos: $retorno");
+  }
+
+  _atualizarUsuario(int id) async {
+    Database bd = await _recuperarBancoDados();
+    Map<String, dynamic> dadosUsuario = {
+      "nome" : "Luiz",
+      "idade" : 20,
+    };
+    int retorno = await bd.update(
+                          "usuarios",
+                          dadosUsuario,
+                          where: "id = ?",
+                          whereArgs: [id]
+                        );
+
+    print("qtd de registros atualizados: $retorno");
+  }
+
   @override
   Widget build(BuildContext context) {
-    _recuperarBancoDados();
+    //_listarUsuarios();
+    //_listarUsuario(1);
+    _atualizarUsuario(1);
     _listarUsuarios();
     return Container(color: Colors.red,);
   }
