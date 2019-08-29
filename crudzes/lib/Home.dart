@@ -8,6 +8,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    double largura = MediaQuery.of(context).size.width/2.4; // usado para escalar objetos de acordo com o tamanho do dispositivo
     return Scaffold(
       appBar: AppBar(
         title: Text("CRUD"),
@@ -26,8 +27,8 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, "/create");
                 },
                 child: Container(
-                  width: 150,
-                  height: 150,
+                  width: largura,
+                  height: largura,
                   decoration: BoxDecoration(
                       color: Colors.red,
                       boxShadow: [
@@ -57,8 +58,10 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, "/read");
                 },
                 child: Container(
-                  width: 150,
-                  height: 150,
+                  //width: 150, valores anteriores, fica um bom tamanho, mas não escala de acordo com o dispositivo
+                  //height: 150,
+                  width: largura,
+                  height: largura,
                   decoration: BoxDecoration(
                       color: Colors.green,
                       boxShadow: [
@@ -97,8 +100,8 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, "/update");
                 },
                 child: Container(
-                  width: 150,
-                  height: 150,
+                  width: largura,
+                  height: largura,
                   decoration: BoxDecoration(
                       color: Color.fromRGBO(255, 204, 0, 1),
                       boxShadow: [
@@ -128,8 +131,8 @@ class _HomeState extends State<Home> {
                   Navigator.pushNamed(context, "/delete");
                 },
                 child: Container(
-                  width: 150,
-                  height: 150,
+                  width: largura,
+                  height: largura,
                   decoration: BoxDecoration(
                       color: Colors.blue,
                       boxShadow: [
